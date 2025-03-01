@@ -12,13 +12,16 @@ class Player:
         self.name = name
         self.color = color
         self.money = money
-
+        self.pre_x = x
+        self.pre_y = y
 
     def show(self, surface):
         pygame.draw.circle( surface, self.color, (self.x, self.y), PLAYER_RADIUS)
 
 
     def move(self, dice_value):
+        self.pre_x = self.x
+        self.pre_y = self.y
         if self.x == 50 or self.y == 50:
             self.y -= dice_value * 100
             if self.y < 0:

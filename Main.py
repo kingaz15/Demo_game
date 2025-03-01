@@ -4,7 +4,7 @@ import random
 
 from Define import *
 from player import Player
-from Start_Tile import StartTile
+from Tile import StartTile
 
 screen = pygame.display.set_mode((WiDTH, HEiTDH))
 pygame.display.set_caption("Monopoly game")
@@ -25,7 +25,6 @@ property1 = property("Mediterranean Avenue", 60, 2)
 #Init Player
 Player1 = Player(BLACK, PLAYER_X, PLAYER_Y, "Player 1")
 Start_Tile = StartTile()
-Start_Tile.pass_through(Player1)
 
 #Main Loop
 run = True
@@ -83,6 +82,7 @@ while run:
                 PLAYER_MOVE = dice_value * 100
                 text_dice = font.render(str(dice_value), True, BLACK)
                 Player1.move(dice_value)
+                Start_Tile.pass_though(Player1)
                 money_text = font.render(f"Money: ${Player1.money}", True, BLACK)
                 print(dice_value)
 
