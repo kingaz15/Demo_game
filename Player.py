@@ -6,14 +6,16 @@ class Player:
     y=0
     color=""
     
-    def __init__(self, color, x, y):
+    def __init__(self, color, x, y, name, money = 1500):
         self.x = x
         self.y = y
+        self.name = name
         self.color = color
+        self.money = money
 
 
     def show(self, surface):
-        pygame.draw.circle(surface, self.color, (self.x, self.y), PLAYER_RADIUS)
+        pygame.draw.circle( surface, self.color, (self.x, self.y), PLAYER_RADIUS)
 
 
     def move(self, dice_value):
@@ -34,3 +36,9 @@ class Player:
                 self.y -= -self.x + 50
                 self.x = 50
 
+class property:
+    def __init__(self, name, price, rent):
+        self.name = name
+        self.price = price
+        self.rent = rent
+        self.owner = None

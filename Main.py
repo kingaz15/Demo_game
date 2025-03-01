@@ -3,7 +3,8 @@ import random
 
 
 from Define import *
-from Player import Player
+from player import Player
+from Start_Tile import StartTile
 
 screen = pygame.display.set_mode((WiDTH, HEiTDH))
 pygame.display.set_caption("Monopoly game")
@@ -18,14 +19,19 @@ image_rect = image.get_rect(center = (WiDTH//2, HEiTDH//2))
 pygame.font.init()
 font = pygame.font.SysFont(None, 55)
 
-#Init Player
-Player1 = Player(BLACK, PLAYER_X, PLAYER_Y)
+#Init Property
+property1 = property("Mediterranean Avenue", 60, 2)
 
+#Init Player
+Player1 = Player(BLACK, PLAYER_X, PLAYER_Y, "Player 1")
+Start_Tile = StartTile()
+Start_Tile.pass_through(Player1)
 
 #Main Loop
 run = True
 dice_value = 0 
 text_dice = font.render(str(dice_value), True, BLACK)
+money_text = font.render(f"Money: ${Player1.money}", True, BLACK)
 while run:
     screen.fill(GREY)
     screen.blit(image, image_rect)
@@ -66,7 +72,7 @@ while run:
     Player1.show(screen)
 
     screen.blit(text_dice, (400, 500))
-
+    screen.blit(money_text, (280, 200))
     #Event
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -77,10 +83,10 @@ while run:
                 PLAYER_MOVE = dice_value * 100
                 text_dice = font.render(str(dice_value), True, BLACK)
                 Player1.move(dice_value)
+                money_text = font.render(f"Money: ${Player1.money}", True, BLACK)
                 print(dice_value)
 
     pygame.display.flip()
-
 
 
 
