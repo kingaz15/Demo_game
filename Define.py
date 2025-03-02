@@ -1,8 +1,10 @@
+import pygame
 import os
 
+pygame.init()
 #SCREEN
-WiDTH = 800
-HEiTDH = 700
+info = pygame.display.Info()
+WIDTH, HEIGHT = info.current_w, info.current_h
 WIDTH_IMAGE = 500
 HEIGHT_IMAGE = 200
 
@@ -26,6 +28,6 @@ CYAN = (0, 255, 255)
 
 #PLAYER
 PLAYER_RADIUS = 20
-PLAYER_X = 50
-PLAYER_Y = 650
+PLAYER_X = 20
+PLAYER_Y = 800
 

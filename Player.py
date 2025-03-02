@@ -22,22 +22,27 @@ class Player:
     def move(self, dice_value):
         self.pre_x = self.x
         self.pre_y = self.y
-        if self.x == 50 or self.y == 50:
-            self.y -= dice_value * 100
+        print(self.x, self.y)
+        if self.x == 20 or self.y == 20:
+            self.y -= dice_value * 75
             if self.y < 0:
-                self.x += -self.y + 50
-                self.y = 50
-            if self.x > 800:
-                self.y += self.x - 750
-                self.x = 750
-        elif self.x == 750 or self.y == 650:
-            self.y += dice_value * 100 
-            if self.y > 700:
-                self.x -= self.y - 650
-                self.y = 650
+                self.x += -self.y + 60
+                self.y = 20
+                if self.x == 20 and 50 <= self.y <= 125:
+                    self.x += -self.y + 75*3
+                    self.y = 20
+                    print(self.x, self.y)
+                if self.x > 1600:
+                    self.y += self.x - 1550
+                    self.x = 1550
+        elif self.x == 1550 or self.y == 850:
+            self.y += dice_value * 75 
+            if self.y > 900:
+                self.x -= self.y - 850
+                self.y = 850
             if self.x < 0:
-                self.y -= -self.x + 50
-                self.x = 50
+                self.y -= -self.x + 75
+                self.x = 20
 
 class property:
     def __init__(self, name, price, rent):
