@@ -1,5 +1,6 @@
 import pygame
 import os
+import random
 
 pygame.init()
 #SCREEN
@@ -7,6 +8,7 @@ info = pygame.display.Info()
 WIDTH, HEIGHT = info.current_w, info.current_h
 WIDTH_IMAGE = 500
 HEIGHT_IMAGE = 200
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 
 #PATH
 PATH_DICTIONARY = os.path.dirname((__file__))
@@ -28,6 +30,19 @@ CYAN = (0, 255, 255)
 
 #PLAYER
 PLAYER_RADIUS = 20
-PLAYER_X = 20
-PLAYER_Y = 800
 
+#Tile_Size
+TILE_SIZE_COLUMN = 99
+TILE_SIZE_ROW = 100
+BIG_TILE_SIZE = 150
+NUM_VERTICAL_TILES_UP = 7
+NUM_HORIZONTAL_TILES_RIGHT = 14
+NUM_VERTICAL_TILES_DOWN = 7
+NUM_HORIZONTAL_TILES_LEFT = 14
+
+#Total_TIle
+TOTAL_TILES = NUM_VERTICAL_TILES_UP + NUM_HORIZONTAL_TILES_RIGHT + NUM_VERTICAL_TILES_DOWN + NUM_HORIZONTAL_TILES_LEFT
+
+#Dice
+def roll_dice():
+    return random.randint(1, 6), random.randint(1, 6)

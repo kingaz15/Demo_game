@@ -6,43 +6,41 @@ class Player:
     y=0
     color=""
     
-    def __init__(self, color, x, y, name, money = 1500):
-        self.x = x
-        self.y = y
-        self.name = name
-        self.color = color
+    def __init__(self, money = 1500):
         self.money = money
-        self.pre_x = x
-        self.pre_y = y
+        self.index = 0
 
-    def show(self, surface):
-        pygame.draw.circle( surface, self.color, (self.x, self.y), PLAYER_RADIUS)
+    def move(self, steps):
+        self.index = (self.index + steps) % TOTAL_TILES
 
+    def draw(self):
+        if self.index == 0:
+            x = BIG_TILE_SIZE // 2
+            y = BIG_TILE_SIZE // 2 + TILE_SIZE_ROW * NUM_VERTICAL_TILES_UP + 50
+        elif self.index < NUM_VERTICAL_TILES_UP:
+            x = TILE_SIZE_ROW // 2
+            y = HEIGHT - (self.index + 1) * TILE_SIZE_ROW + TILE_SIZE_ROW // 2 - 15
+        elif self.index <= NUM_VERTICAL_TILES_UP:
+            x = BIG_TILE_SIZE // 2
+            y = BIG_TILE_SIZE // 2
+        elif self.index < NUM_VERTICAL_TILES_UP + NUM_HORIZONTAL_TILES_RIGHT:
+            x = (self.index - NUM_VERTICAL_TILES_UP + 1) * TILE_SIZE_COLUMN + TILE_SIZE_COLUMN // 2 - 37
+            y = TILE_SIZE_COLUMN // 2
+        elif self.index <= NUM_VERTICAL_TILES_UP + NUM_HORIZONTAL_TILES_RIGHT:
+            x = BIG_TILE_SIZE // 2 + NUM_HORIZONTAL_TILES_RIGHT*TILE_SIZE_ROW + 60
+            y = BIG_TILE_SIZE // 2
+        elif self.index < NUM_VERTICAL_TILES_UP + NUM_HORIZONTAL_TILES_RIGHT + NUM_VERTICAL_TILES_DOWN:
+            x = WIDTH - TILE_SIZE_COLUMN + TILE_SIZE_COLUMN // 2 + 50
+            y = (self.index - (NUM_VERTICAL_TILES_UP + NUM_HORIZONTAL_TILES_RIGHT) + 1) * TILE_SIZE_COLUMN + TILE_SIZE_COLUMN // 2 - 45
+        elif self.index <= NUM_VERTICAL_TILES_UP + NUM_HORIZONTAL_TILES_RIGHT + NUM_VERTICAL_TILES_DOWN:
+            x = BIG_TILE_SIZE // 2 + NUM_HORIZONTAL_TILES_RIGHT*TILE_SIZE_ROW + 60
+            y = BIG_TILE_SIZE // 2 + NUM_VERTICAL_TILES_DOWN*TILE_SIZE_COLUMN + 60
+        else:
+            x = WIDTH - (self.index - (NUM_VERTICAL_TILES_UP + NUM_HORIZONTAL_TILES_RIGHT + NUM_VERTICAL_TILES_DOWN) + 1) * TILE_SIZE_COLUMN + TILE_SIZE_COLUMN // 2 + 15
+            y = HEIGHT - TILE_SIZE_COLUMN + TILE_SIZE_COLUMN // 2 + 20
 
-    def move(self, dice_value):
-        self.pre_x = self.x
-        self.pre_y = self.y
-        print(self.x, self.y)
-        if self.x == 20 or self.y == 20:
-            self.y -= dice_value * 75
-            if self.y < 0:
-                self.x += -self.y + 60
-                self.y = 20
-                if self.x == 20 and 50 <= self.y <= 125:
-                    self.x += -self.y + 75*3
-                    self.y = 20
-                    print(self.x, self.y)
-                if self.x > 1600:
-                    self.y += self.x - 1550
-                    self.x = 1550
-        elif self.x == 1550 or self.y == 850:
-            self.y += dice_value * 75 
-            if self.y > 900:
-                self.x -= self.y - 850
-                self.y = 850
-            if self.x < 0:
-                self.y -= -self.x + 75
-                self.x = 20
+        pygame.draw.circle(screen, RED, (x, y), PLAYER_RADIUS)
+
 
 class property:
     def __init__(self, name, price, rent):
