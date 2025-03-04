@@ -1,3 +1,4 @@
+
 import pygame
 import sys
 import random
@@ -18,15 +19,15 @@ image_rect = image.get_rect(center = (WIDTH//2, HEIGHT//2))
 pygame.font.init()
 font = pygame.font.SysFont(None, 55)
 
-#Init Property
+# Init Property
 property1 = property("Mediterranean Avenue", 60, 2)
 
-#Init Player
+# Init Player
 Player1 = Player()
 
-#Main Loop
+# Main Loop
 run = True
-dice_1, dice_2 = 1,1
+dice_1, dice_2 = 1 ,1
 money_text = font.render(f"Money: ${Player1.money}", True, BLACK)
 clock = pygame.time.Clock()
 while run:
@@ -34,12 +35,12 @@ while run:
     screen.blit(image, image_rect)
     draw_board()
     Player1.draw()
-    
+
 
     text_dice = font.render(f"Dice: {dice_1} + {dice_2} = {dice_1 + dice_2}", True, BLACK)
     screen.blit(text_dice, (WIDTH // 2 - 550, 550))
     screen.blit(money_text, (280, 200))
-    #Event
+    # Event
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
@@ -51,7 +52,7 @@ while run:
                 dice_1, dice_2 = roll_dice()
                 Player1.move(dice_1 + dice_2)
                 money_text = font.render(f"Money: ${Player1.money}", True, BLACK)
-            
+
 
     pygame.display.flip()
     clock.tick (60)
