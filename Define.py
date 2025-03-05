@@ -45,10 +45,34 @@ VERTICAL_TILE_SIZE_Y=130
 HORIZONTAL_TILE_SIZE_X=99
 HORIZONTAL_TILE_SIZE_Y=130
 
+#DICE SURFACE
+dice_face1=pygame.transform.scale(pygame.image.load(os.path.join('Images','face1.png')),(50,50))
+dice_face2=pygame.transform.scale(pygame.image.load(os.path.join('Images','face2.png')),(50,50))
+dice_face3=pygame.transform.scale(pygame.image.load(os.path.join('Images','face3.png')),(50,50))
+dice_face4=pygame.transform.scale(pygame.image.load(os.path.join('Images','face4.png')),(50,50))
+dice_face5=pygame.transform.scale(pygame.image.load(os.path.join('Images','face5.png')),(50,50))
+dice_face6=pygame.transform.scale(pygame.image.load(os.path.join('Images','face6.png')),(50,50))
+dice={1:dice_face1,2:dice_face2,3:dice_face3,4:dice_face4,5:dice_face5,6:dice_face6}
+
 #Total_TIle
 TOTAL_TILES = NUM_VERTICAL_TILES_UP + NUM_HORIZONTAL_TILES_RIGHT + NUM_VERTICAL_TILES_DOWN + NUM_HORIZONTAL_TILES_LEFT
 
 #Dice
 def roll_dice():
-    return random.randint(1, 6), random.randint(1, 6)
+    dice1=random.randint(1,6)
+    print_dice1=0
+    dice2=random.randint(1,6)
+    print_dice2=0
+    while print_dice1 != dice1:
+        print_dice1 = random.randint(1, 6)
+        screen.blit(dice[print_dice1], (200, 300))
+        pygame.display.update()
+        pygame.time.delay(250)
 
+    while print_dice2 != dice2:
+        print_dice2 = random.randint(1, 6)
+        screen.blit(dice[print_dice2], (300, 300))
+        pygame.display.update()
+        pygame.time.delay(250)
+
+    return dice1,dice2

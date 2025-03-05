@@ -49,8 +49,8 @@ while run:
                 run = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                dice_1, dice_2 = roll_dice()
-                Player1.move(dice_1 + dice_2)
+                dice_1,dice_2 = roll_dice()
+                Player1.move(dice_1+dice_2)
                 money_text = font.render(f"Money: ${Player1.money}", True, BLACK)
 
 

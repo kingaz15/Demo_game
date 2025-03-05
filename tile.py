@@ -29,7 +29,7 @@ class Tile:
         tile_surface.fill(WHITE)
 
         pygame.draw.rect(tile_surface, self.color, (0, 0, VERTICAL_TILE_SIZE_X,20))
-
+        pygame.draw.rect(tile_surface,BLACK,(0,0,VERTICAL_TILE_SIZE_X,VERTICAL_TILE_SIZE_Y),1)
         # Tạo font chữ
         font=pygame.font.Font(None,16)
         words = self.name.split()
@@ -58,6 +58,7 @@ class Tile:
         tile_surface.fill(WHITE)
 
         pygame.draw.rect(tile_surface, self.color, (0, 0, TILE_SIZE_ROW, 20))
+        pygame.draw.rect(tile_surface, BLACK, (0, 0, HORIZONTAL_TILE_SIZE_X, HORIZONTAL_TILE_SIZE_Y), 1)
 
         # Tạo font chữ
         font = pygame.font.Font(None, 16)
@@ -88,6 +89,7 @@ class Tile:
         tile_surface.fill(WHITE)
 
         pygame.draw.rect(tile_surface, self.color, (0, 0, VERTICAL_TILE_SIZE_X, 20))
+        pygame.draw.rect(tile_surface, BLACK, (0, 0, VERTICAL_TILE_SIZE_X, VERTICAL_TILE_SIZE_Y), 1)
 
         # Tạo font chữ
         font = pygame.font.Font(None, 16)
@@ -117,6 +119,7 @@ class Tile:
         tile_surface = pygame.Surface((HORIZONTAL_TILE_SIZE_X, HORIZONTAL_TILE_SIZE_Y), pygame.SRCALPHA)
         tile_surface.fill(WHITE)
         pygame.draw.rect(tile_surface, self.color, (0, 0, HORIZONTAL_TILE_SIZE_X, 20))
+        pygame.draw.rect(tile_surface, BLACK, (0, 0, HORIZONTAL_TILE_SIZE_X, HORIZONTAL_TILE_SIZE_Y), 1)
 
         # Tạo font chữ
         font = pygame.font.Font(None, 16)

@@ -131,4 +131,6 @@ def draw_board():
     block38 = Tile(WHITE, 0, 150+HORIZONTAL_TILE_SIZE_X*5, "MY HOUSE", 5000)
     block38.draw_left_small_tile()
 
+    #dice
+
 
