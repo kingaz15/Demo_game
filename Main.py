@@ -1,10 +1,9 @@
-
 import pygame
 import sys
 import random
 
 from Define import *
-from Player import *
+from player import *
 from Main_Board import draw_board
 from Property import*
 
@@ -67,9 +66,6 @@ properties = [
 Player1 = Player("Hoan", 1)
 Player2 = Player("An", 2)
 
-
-buying = False
-
 # Main Loop
 run = True
 dice_1, dice_2 = 1 ,1
@@ -80,7 +76,7 @@ clock = pygame.time.Clock()
 def show_message(text, delay=2000):
     pygame.font.init()
     message_font = pygame.font.SysFont("Arial", 40)
-    msg_bg = pygame.Rect(WIDTH//2 - 500, HEIGHT//2 - 100, 400, 200)
+    msg_bg = pygame.Rect(WIDTH//2 - 500, HEIGHT//2 - 100, 600, 200)
     pygame.draw.rect(screen, WHITE, msg_bg)
     pygame.draw.rect(screen, BLACK, msg_bg, 3)
     text_surface = message_font.render(text, True, BLACK)
@@ -101,86 +97,92 @@ def draw_button(screen, rect, color, text, hover_color=None,):
     text_rect = text_surface.get_rect(center=rect.center)
     screen.blit(text_surface, text_rect)
 
-def show_purchase_menu(property, player):
+buy_button = None
+skip_button = None
+selected_property = None
+show_menu = False
+current_player = None
+buying = False
+
+def show_purchase_menu(property):
     menu_font = pygame.font.SysFont(None, 45)
     menu_bg = pygame.Rect(WIDTH//2 - 200, HEIGHT//2 - 150, 400, 300)
     pygame.draw.rect(screen, GREY, menu_bg, border_radius=10)
     pygame.draw.rect(screen, BLACK, menu_bg, 3, border_radius=10)
+
     text_title = menu_font.render(f"Mua {property.name} ?", True, BLACK)
-    text_price = menu_font.render(f"Gia: ${property.value}", True, BLACK)
+    text_price = menu_font.render(f"Giá: ${property.value}", True, BLACK)
+    screen.blit(text_title, (menu_bg.x + 50, menu_bg.y + 20))
+    screen.blit(text_price, (menu_bg.x + 50, menu_bg.y + 60))
+
+    global buy_button, skip_button
     buy_button = pygame.Rect(WIDTH // 2 - 140, HEIGHT // 2 + 50, 120, 50)
     skip_button = pygame.Rect(WIDTH // 2 + 20, HEIGHT // 2 + 50, 120, 50)
     draw_button(screen, buy_button, GREEN, "Mua", hover_color=(0, 200, 0))
-    draw_button(screen, skip_button, RED, "Bo qua", hover_color=(200, 0, 0))
-    text_buy = menu_font.render("Mua", True, BLACK)
-    text_skip = menu_font.render("Bo qua", True, BLACK)
-    screen.blit(text_title, (menu_bg.x + 50, menu_bg.y + 20))
-    screen.blit(text_price, (menu_bg.x + 50, menu_bg.y + 50))
-    screen.blit(text_buy, (menu_bg.x + 50, menu_bg.y + 90))
-    screen.blit(text_skip, (menu_bg.x + 50, menu_bg.y + 120))
-    pygame.display.update()
-    pygame.time.delay(2000)
-
-    return buy_button, skip_button
-
-selected_property = None
+    draw_button(screen, skip_button, RED, "Bỏ qua", hover_color=(200, 0, 0))
 
 while run:
     screen.fill(WHITE)
     screen.blit(image, image_rect)
     draw_board()
-    Player1.draw()
+    Player1.draw_1()
+    Player2.draw_2()
 
+    if show_menu and selected_property and not selected_property.owned_flag:
+        show_purchase_menu(selected_property)
 
-    # Event
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
 
-        elif event.type == pygame.KEYDOWN:  # Xử lý phím bấm
+        elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 run = False
 
-            elif event.key == pygame.K_SPACE:
+            elif event.key == pygame.K_1:
                 dice_1, dice_2 = roll_dice()
                 Player1.move(dice_1 + dice_2)
-                pygame.display.update()  # Cập nhật màn hình sau khi roll xúc xắc
-
-                # Kiểm tra ô hiện tại của người chơi
+                current_player = Player1
                 current_position = Player1.index
-                print(f"{Player1.name} đang đứng ở ô {current_position}")
                 for prop in properties:
-                    if prop.id == current_position:
-                        print(f"Người chơi đã đến ô tài sản: {prop.name}")
+                    if prop.id == current_position and not prop.owned_flag:
+                        selected_property = prop
+                        show_menu = True
 
-                        if not prop.owned_flag:  # Nếu chưa có chủ
-                            print("Hiển thị bảng mua nhà")
-                            buy_button, skip_button = show_purchase_menu(prop, Player1)  # Lưu lại nút để xử lý click
-                            selected_property = prop
+            elif event.key == pygame.K_2:
+                dice_1, dice_2 = roll_dice()
+                Player2.move(dice_1 + dice_2)
+                current_player = Player2
+                current_position = Player2.index
+                for prop in properties:
+                    if prop.id == current_position and not prop.owned_flag:
+                        selected_property = prop
+                        show_menu = True
 
-        elif event.type == pygame.MOUSEBUTTONDOWN:  # Kiểm tra click chuột
-            mouse_x, mouse_y = pygame.mouse.get_pos()  # Lấy tọa độ chuột
-            if selected_property is not None and skip_button is not None:
-             if buy_button and buy_button.collidepoint(mouse_x, mouse_y):
-                if Player1.money >= selected_property.value:
-                    Player1.charge_money(selected_property.value)
-                    Player1.add_property(selected_property)
-                    selected_property.owner = Player1
-                    selected_property.owned_flag = True
-                    show_message(f"{Player1.name} da mua {selected_property.name} voi gia {selected_property.value}!")
-                else:
-                    show_message("Khong du tien mua")
-                selected_property = None
-                buy_button, skip_button = None, None  # Xóa nút sau khi xử lý xong (thụt lề đúng)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if show_menu and selected_property:
+                if buy_button and buy_button.collidepoint(mouse_x, mouse_y):
+                    if current_player.money >= selected_property.value:
+                        current_player.charge_money(selected_property.value)
+                        current_player.add_property(selected_property)
+                        selected_property.owner = current_player
+                        selected_property.owned_flag = True
+                        show_message(f"{current_player.name} da mua {selected_property.name} voi gia ${selected_property.value}")
+                    else:
+                        show_message("Khong du tien mua.")
+                    show_menu = False
+                    selected_property = None
+                    buy_button = skip_button = None
 
-             elif skip_button.collidepoint(mouse_x, mouse_y):
-                    show_message("Nguoi choi tu choi mua")
-                    selected_property = None  # Xóa tài sản sau khi từ chối
-                    buy_button, skip_button = None, None  # Xóa nút sau khi xử lý xong
+                elif skip_button and skip_button.collidepoint(mouse_x, mouse_y):
+                    show_message(f"{current_player.name} bo qua mua {selected_property.name}.")
+                    show_menu = False
+                    selected_property = None
+                    buy_button = skip_button = None
 
     pygame.display.flip()
-    clock.tick (60)
-
+    clock.tick(60)
 
 pygame.quit()
 sys.exit()
