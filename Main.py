@@ -69,7 +69,8 @@ Player2 = Player("An", 2)
 # Main Loop
 run = True
 dice_1, dice_2 = 1 ,1
-money_text = font.render(f"Money: ${Player1.money}", True, BLACK)
+money_text_1 = font.render(f"{Player1.name} Money: ${Player1.money}", True, BLACK)
+money_text_2 = font.render(f"{Player2.name} Money: ${Player2.money}", True, BLACK)
 clock = pygame.time.Clock()
 
 
@@ -125,6 +126,8 @@ while run:
     screen.fill(WHITE)
     screen.blit(image, image_rect)
     draw_board()
+    screen.blit(money_text_1, (200, 500))
+    screen.blit(money_text_2, (200, 600))
     Player1.draw_1()
     Player2.draw_2()
 
@@ -168,6 +171,11 @@ while run:
                         current_player.add_property(selected_property)
                         selected_property.owner = current_player
                         selected_property.owned_flag = True
+                        if current_player == Player1:
+                            money_text_1 = font.render(f"{Player1.name} Money: ${Player1.money}", True, BLACK)
+                        else:
+                            money_text_2 = font.render(f"{Player2.name} Money: ${Player2.money}", True, BLACK)
+
                         show_message(f"{current_player.name} da mua {selected_property.name} voi gia ${selected_property.value}")
                     else:
                         show_message("Khong du tien mua.")
