@@ -1,7 +1,3 @@
-
-
-
-
 class Property:
     def __init__(self, ID=0, color="none", value=0, name="No name"):
         self.id = ID # mã định danh duy nhát của tài sản
@@ -25,5 +21,4 @@ class Property:
 
     def get_value(self):
         return self.value
-
 

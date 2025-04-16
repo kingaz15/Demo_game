@@ -35,7 +35,7 @@ PLAYER_RADIUS = 20
 #Tile_Size
 TILE_SIZE_COLUMN = 99
 TILE_SIZE_ROW = 100
-BIG_TILE_SIZE = 150
+BIG_TILE_SIZE = 155
 NUM_VERTICAL_TILES_UP = 7
 NUM_HORIZONTAL_TILES_RIGHT = 14
 NUM_VERTICAL_TILES_DOWN = 7
@@ -60,19 +60,23 @@ TOTAL_TILES = NUM_VERTICAL_TILES_UP + NUM_HORIZONTAL_TILES_RIGHT + NUM_VERTICAL_
 #Dice
 def roll_dice():
     dice1=random.randint(1,6)
-    print_dice1=0
     dice2=random.randint(1,6)
-    print_dice2=0
-    while print_dice1 != dice1:
-        print_dice1 = random.randint(1, 6)
-        screen.blit(dice[print_dice1], (200, 300))
-        pygame.display.update()
-        pygame.time.delay(250)
+    roll_time=1000
+    time_interval=100
+    start_time=pygame.time.get_ticks()
+    while pygame.time.get_ticks()-start_time<=roll_time:
+        temp1=random.randint(1,6)
+        temp2=random.randint(1,6)
 
-    while print_dice2 != dice2:
-        print_dice2 = random.randint(1, 6)
-        screen.blit(dice[print_dice2], (300, 300))
+        screen.blit(dice[temp1],(200,300))
+        screen.blit(dice[temp2],(300,300))
+
         pygame.display.update()
-        pygame.time.delay(250)
+        pygame.time.delay(time_interval)
+
+    screen.blit(dice[dice1], (200, 300))
+    screen.blit(dice[dice2], (300, 300))
+    pygame.display.update()
+    pygame.time.delay(500)
 
     return dice1,dice2
